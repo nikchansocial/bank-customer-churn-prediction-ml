@@ -18,14 +18,12 @@ def section(label: str) -> None:
     st.markdown(f'<div class="sec">{label}</div>', unsafe_allow_html=True)
 
 
-def header(T: dict) -> None:
+def header(T: dict, title: str = "Overview", subtitle: str = "") -> None:
+    sub = f'<p>{subtitle}</p>' if subtitle else ""
     st.markdown(f"""
-<div class="hd">
-    <div class="mark">◆</div>
-    <div>
-        <h1>Customer {config.APP_TITLE}</h1>
-        <p>{config.APP_TAGLINE}</p>
-    </div>
+<div class="phd">
+    <h1><span class="dia">◆</span> {title}</h1>
+    {sub}
 </div>""", unsafe_allow_html=True)
 
 

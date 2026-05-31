@@ -21,7 +21,7 @@ def render():
     model = data.get_model()
     cur = config.CURRENCY
     ui.topbar()
-    ui.header(T)
+    ui.header(T, "Batch Scoring", "Score and export an entire customer file")
 
     ui.section("Batch Customer Scoring")
     ui.render('<div class="box accent"><p>Upload a CSV of customers and score every row at once. '

@@ -77,7 +77,7 @@ def render():
     cur = config.CURRENCY
 
     ui.topbar()
-    ui.header(T)
+    ui.header(T, "Customer Risk Scorer", "Single-customer churn probability & explanation")
 
     prob = model.score_one(**profile)
     label, glyph, band = config.risk_band(prob)

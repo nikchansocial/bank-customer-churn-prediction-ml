@@ -27,7 +27,7 @@ def _bar(frame, x, T, title, sort=False):
 def render():
     T = get_theme()
     ui.topbar()
-    ui.header(T)
+    ui.header(T, "Executive Overview", "Retail banking · portfolio churn analytics")
     k = data.headline_kpis()
     cur = config.CURRENCY
 

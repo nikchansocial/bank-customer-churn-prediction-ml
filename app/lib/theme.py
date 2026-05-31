@@ -37,14 +37,11 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 [data-testid="block-container"] {{ padding-top:0.9rem; padding-bottom:0.8rem; max-width:1140px; }}
 [data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 
-/* header */
-.hd {{ display:flex; align-items:center; gap:13px; padding:13px 20px; border-radius:16px;
-      background:{T['panel']}; border:1px solid {T['border']}; box-shadow:{T['shadow']}; margin:0 0 12px 0; }}
-.hd .mark {{ width:36px; height:36px; border-radius:11px; flex:0 0 auto;
-      background:linear-gradient(135deg,{T['accent']},{T['accent_soft']});
-      display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:700; }}
-.hd h1 {{ font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin:0; color:{T['text']} !important; letter-spacing:-0.3px; }}
-.hd p  {{ margin:2px 0 0 0; font-size:10.5px; color:{T['muted']} !important; letter-spacing:0.7px; font-weight:600; text-transform:uppercase; }}
+/* slim page header */
+.phd {{ margin:2px 0 12px 0; padding:0 0 10px 0; border-bottom:1px solid {T['border']}; }}
+.phd h1 {{ font-family:'Fraunces',serif; font-weight:600; font-size:23px; margin:0; color:{T['text']} !important; letter-spacing:-0.4px; }}
+.phd h1 .dia {{ color:{T['accent']}; font-size:17px; vertical-align:1px; margin-right:4px; }}
+.phd p {{ margin:3px 0 0 0; font-size:10.5px; color:{T['muted']} !important; letter-spacing:0.7px; font-weight:600; text-transform:uppercase; }}
 
 /* section label */
 .sec {{ font-family:'Instrument Sans',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.3px;
