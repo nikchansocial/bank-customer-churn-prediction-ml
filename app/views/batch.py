@@ -23,23 +23,40 @@ def render():
     ui.topbar()
     ui.header(T, "Batch Scoring", "Score and export an entire customer file")
 
-    ui.section("Batch Customer Scoring")
-    ui.render('<div class="box accent"><p>Upload a CSV of customers and score every row at once. '
-              "Required columns: <span class='tag'>"
-              + "</span> <span class='tag'>".join(RAW_INPUTS) + "</span></p></div>")
+    # ---- how it works ----------------------------------------------------
+    cols_inline = " · ".join(RAW_INPUTS)
+    ui.render(
+        f'<div class="box accent"><h4>Score an entire customer book at once</h4>'
+        f'<p>Upload a CSV and every customer is scored, ranked by churn risk, and '
+        f'made available to download. Your file needs these {len(RAW_INPUTS)} columns:</p>'
+        f'<p style="margin-top:7px;color:{T["muted"]};font-size:12px">{cols_inline}</p></div>'
+    )
 
-    # threshold on its own full-width row, then the two actions aligned side by side
-    threshold = st.slider("Flag threshold", 0.20, 0.60, model.threshold, 0.05,
-                          help="Probability above which a customer is flagged as a likely churner.")
+    # ---- step 1: template -------------------------------------------------
+    ui.section("Step 1 · Get the format")
+    a, b = st.columns([3, 2])
+    with a:
+        ui.render('<div class="box"><p>New here? Download a ready-made 20-row template with the '
+                  'exact columns in the right order — fill it with your data, or just use it as-is '
+                  'to see how scoring works.</p></div>')
+    with b:
+        st.download_button("⬇  Download template (20 rows)", _template_csv(),
+                           "churn_template.csv", "text/csv", width="stretch")
+        st.caption("CSV · opens in Excel or Sheets")
 
-    up = st.file_uploader("Upload a customer CSV", type=["csv"])
-    st.download_button("⬇ Download a 20-row template (correct format)", _template_csv(),
-                       "churn_template.csv", "text/csv", width='stretch')
+    # ---- step 2: score ----------------------------------------------------
+    ui.section("Step 2 · Score your customers")
+    threshold = st.slider(
+        "Flag threshold", 0.20, 0.60, model.threshold, 0.05,
+        help="A customer is flagged 'will churn' when their probability is at or above this. "
+             "Lower = catches more churners (higher recall). Tuned default: 0.35.",
+    )
+
+    up = st.file_uploader("Upload your customer CSV", type=["csv"])
 
     if up is None:
-        st.caption("No file yet — download the template to see the expected format, "
-                   "or try it on the bundled dataset below.")
-        if st.button("▶ Score the bundled European_Bank sample (200 rows)", width='stretch'):
+        st.caption("No file uploaded yet — or try the model instantly on the bundled dataset:")
+        if st.button("▶  Score the bundled European_Bank sample (200 rows)", width="stretch"):
             df = data.load_data()[RAW_INPUTS].head(200)
             _show_results(df, model, threshold, T, cur)
         return
@@ -52,7 +69,8 @@ def render():
 
     missing = [c for c in RAW_INPUTS if c not in df.columns]
     if missing:
-        st.error("Missing required column(s): " + ", ".join(missing))
+        st.error("That file is missing required column(s): " + ", ".join(missing)
+                 + ". Download the template above for the correct format.")
         return
 
     _show_results(df[RAW_INPUTS], model, threshold, T, cur)
@@ -64,27 +82,32 @@ def _show_results(df, model, threshold, T, cur):
     flagged = int((scored["Churn_Probability"] >= threshold).sum())
     exposure = float((scored["Churn_Probability"] * scored["Balance"]).sum())
 
-    ui.section("Results Summary")
+    ui.section("Results · Portfolio Summary")
     c1, c2, c3, c4 = st.columns(4)
     c1.markdown(ui.kpi(f"{n:,}", "Customers Scored"), unsafe_allow_html=True)
     c2.markdown(ui.kpi(f"{flagged:,}", f"Flagged @ {threshold:.2f}", color=T["bad"]), unsafe_allow_html=True)
     c3.markdown(ui.kpi(f"{flagged/n*100:.1f}%", "Flagged Rate", color=T["warn"]), unsafe_allow_html=True)
-    c4.markdown(ui.money_card(f"{cur}{exposure/1e6:.2f}M", "Probability-Weighted Exposure",
-                              "Σ prob × balance"), unsafe_allow_html=True)
+    c4.markdown(ui.money_card(f"{cur}{exposure/1e6:.2f}M", "Exposure at Risk",
+                              "Σ probability × balance"), unsafe_allow_html=True)
 
-    ui.section("Highest-Risk Customers")
+    ui.section("Top 15 Highest-Risk Customers")
     top = scored.sort_values("Churn_Probability", ascending=False).head(15)
+    show = top[["Age", "Geography", "Gender", "NumOfProducts", "Balance",
+                "IsActiveMember", "Churn_Probability", "Prediction", "Balance_at_Risk"]]
     st.dataframe(
-        top, width='stretch', hide_index=True,
+        show, width="stretch", hide_index=True,
         column_config={
+            "NumOfProducts": "Products",
+            "IsActiveMember": st.column_config.NumberColumn("Active"),
+            "Balance": st.column_config.NumberColumn("Balance", format=f"{cur}%d"),
             "Churn_Probability": st.column_config.ProgressColumn(
-                "Churn Prob", min_value=0.0, max_value=1.0, format="%.2f"),
+                "Churn Probability", min_value=0.0, max_value=1.0, format="%.2f"),
             "Balance_at_Risk": st.column_config.NumberColumn("Balance at Risk", format=f"{cur}%d"),
         },
     )
 
     out = io.BytesIO()
     scored.to_csv(out, index=False)
-    st.download_button("⬇ Download full scored CSV", out.getvalue(),
-                       "scored_customers.csv", "text/csv", width='stretch')
+    st.download_button(f"⬇  Download all {n:,} scored customers (CSV)", out.getvalue(),
+                       "scored_customers.csv", "text/csv", width="stretch")
     ui.footer()
