@@ -59,6 +59,8 @@ def render():
         if st.button("▶  Score the bundled European_Bank sample (200 rows)", width="stretch"):
             df = data.load_data()[RAW_INPUTS].head(200)
             _show_results(df, model, threshold, T, cur)
+        else:
+            ui.footer()
         return
 
     try:
