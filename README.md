@@ -9,7 +9,7 @@
 
 When a customer closes their account, the bank loses their deposits and future business. This app predicts how likely a customer is to leave, explains why, and suggests how to keep them — for one customer or for thousands at once. Built on data from 10,000 European bank customers.
 
-**👉 Try the [live app.](https://bank-customer-churn-prediction-ml-nikchansocial.streamlit.app/)
+👉 Try the [live app.](https://bank-customer-churn-prediction-ml-nikchansocial.streamlit.app/)
 
 ---
 
@@ -66,4 +66,5 @@ streamlit run app/app.py
 
 ---
 
-**Nikhil Chandrakar** · [LinkedIn](https://www.linkedin.com/in/nikchansocial) · [GitHub](https://github.com/nikchansocial)
+**Made By Nikhil Chandrakar**
+   [LinkedIn](https://www.linkedin.com/in/nikchansocial) · [GitHub](https://github.com/nikchansocial)
