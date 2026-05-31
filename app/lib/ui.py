@@ -6,22 +6,10 @@ import streamlit as st
 from lib import config
 
 
-import streamlit.components.v1 as components  # noqa: E402
-
-_PRINT_BTN = """
-<button onclick="try{window.parent.print()}catch(e){window.print()}" style="
-  font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:600;
-  color:#c15f3c; background:#ffffff; border:1px solid #e7e3d8; border-radius:10px;
-  padding:8px 12px; cursor:pointer; width:100%;">🖨 Print / PDF</button>
-"""
-
-
 def topbar() -> None:
-    """Right-aligned Print/PDF button + clean-view toggle for capture."""
-    _, c_print, c_clean = st.columns([5, 1.5, 1.5])
-    with c_print:
-        components.html(_PRINT_BTN, height=44)
-    with c_clean:
+    """Right-aligned clean-view toggle for screenshot-friendly capture."""
+    _, right = st.columns([5, 1.5])
+    with right:
         st.toggle("Clean view", key="clean",
                   help="Hide the sidebar and app chrome for a tidy screenshot.")
 
@@ -63,6 +51,10 @@ def render(html: str) -> None:
 def footer() -> None:
     st.markdown(f"""
 <div class="ft">
-    <div class="name">Bank Customer Churn Prediction · built by <span>{config.AUTHOR_HANDLE}</span></div>
-    <div class="meta">Gradient Boosting · SHAP explainability · recall-tuned threshold · Streamlit</div>
+    <div class="name">Bank Customer Churn Prediction · built by <span>Nikhil Chandrakar</span></div>
+    <div class="meta">
+        <a href="https://www.linkedin.com/in/nikchansocial" target="_blank" rel="noopener">LinkedIn</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/nikchansocial" target="_blank" rel="noopener">GitHub</a>
+    </div>
 </div>""", unsafe_allow_html=True)

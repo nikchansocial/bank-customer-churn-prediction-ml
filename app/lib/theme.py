@@ -89,7 +89,9 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 .ft {{ text-align:center; margin-top:20px; padding:14px; border-top:1px solid {T['border']}; }}
 .ft .name {{ font-family:'Fraunces',serif; font-weight:600; font-size:12.5px; color:{T['text']} !important; }}
 .ft .name span {{ color:{T['accent']} !important; }}
-.ft .meta {{ font-size:10.5px; color:{T['muted']} !important; margin-top:3px; letter-spacing:0.3px; }}
+.ft .meta {{ font-size:11px; color:{T['muted']} !important; margin-top:4px; letter-spacing:0.3px; }}
+.ft .meta a {{ color:{T['accent']} !important; text-decoration:none; font-weight:600; }}
+.ft .meta a:hover {{ text-decoration:underline; }}
 
 /* sidebar */
 [data-testid="stSidebar"] {{ background:{T['panel']} !important; border-right:1px solid {T['border']}; }}
