@@ -28,16 +28,18 @@ def render():
               "Required columns: <span class='tag'>"
               + "</span> <span class='tag'>".join(RAW_INPUTS) + "</span></p></div>")
 
-    cdl, cup = st.columns([1, 2])
-    cdl.download_button("⬇ Download template (20 rows)", _template_csv(),
-                        "churn_template.csv", "text/csv", width='stretch')
-    threshold = cup.slider("Flag threshold", 0.20, 0.60, model.threshold, 0.05)
+    # threshold on its own full-width row, then the two actions aligned side by side
+    threshold = st.slider("Flag threshold", 0.20, 0.60, model.threshold, 0.05,
+                          help="Probability above which a customer is flagged as a likely churner.")
 
-    up = st.file_uploader("Upload customer CSV", type=["csv"], label_visibility="collapsed")
+    up = st.file_uploader("Upload a customer CSV", type=["csv"])
+    st.download_button("⬇ Download a 20-row template (correct format)", _template_csv(),
+                       "churn_template.csv", "text/csv", width='stretch')
+
     if up is None:
-        st.caption("No file yet — download the template above to see the expected format, "
-                   "or try it on the bundled dataset.")
-        if st.button("▶ Score the bundled European_Bank sample (200 rows)"):
+        st.caption("No file yet — download the template to see the expected format, "
+                   "or try it on the bundled dataset below.")
+        if st.button("▶ Score the bundled European_Bank sample (200 rows)", width='stretch'):
             df = data.load_data()[RAW_INPUTS].head(200)
             _show_results(df, model, threshold, T, cur)
         return

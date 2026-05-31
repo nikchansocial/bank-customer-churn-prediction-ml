@@ -131,6 +131,19 @@ def render():
                 ui.render(f'<div class="box accent"><p><b>{name}</b><br>Barely moves risk '
                           f'({prob*100:.1f}% → {p2*100:.1f}%) — other factors dominate here.</p></div>')
 
+        # behavioral signals — fills the column so it balances the SHAP list
+        ui.section("Behavioral Signals")
+        eng = ("High" if (profile["IsActiveMember"] and profile["NumOfProducts"] in (1, 2))
+               else "Low" if not profile["IsActiveMember"] else "Moderate")
+        tags = [
+            f"Engagement: {eng}",
+            f"Product density: {profile['NumOfProducts']/(profile['Tenure']+1):.2f}/yr",
+            f"Balance/Salary: {profile['Balance']/(profile['EstimatedSalary']+1):.2f}",
+            f"Active: {'Yes' if profile['IsActiveMember'] else 'No'}",
+            f"Credit card: {'Yes' if profile['HasCrCard'] else 'No'}",
+        ]
+        ui.render('<div class="box">' + "".join(f'<span class="tag">{t}</span>' for t in tags) + '</div>')
+
     # ---- recommended action plan -----------------------------------------
     ui.section("Recommended Action Plan")
     plans = {

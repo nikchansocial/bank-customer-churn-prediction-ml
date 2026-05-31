@@ -101,8 +101,17 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 .brand .dot {{ color:{T['accent']}; }}
 .stProgress > div > div > div > div {{ background:{T['accent']} !important; }}
 
-/* clean-view toggle: subtle, right-aligned */
-[data-testid="stMain"] [data-testid="stCheckbox"], [data-testid="stMain"] [data-testid="stToggle"] {{ float:right; }}
+/* print / save-as-PDF: auto-clean output */
+@media print {{
+  [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"],
+  [data-testid="stHeader"], [data-testid="stToolbar"],
+  [data-testid="stToggle"], [data-testid="stIFrame"],
+  [data-testid="stCustomComponentV1"] {{ display:none !important; }}
+  [data-testid="stMain"] {{ margin-left:0 !important; }}
+  .stApp, [data-testid="stAppViewContainer"] {{ background:#ffffff !important; }}
+  [data-testid="block-container"] {{ max-width:100% !important; padding-top:0 !important; }}
+  .card, .box, .pill, .money {{ box-shadow:none !important; break-inside:avoid; }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
