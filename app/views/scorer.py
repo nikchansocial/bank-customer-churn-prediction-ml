@@ -13,21 +13,32 @@ def _inputs():
     s.markdown("## Customer Profile")
     s.caption("Adjust the inputs to score a customer.")
     s.markdown('<div class="sgroup">Demographics</div>', unsafe_allow_html=True)
-    age = s.slider("Age", 18, 92, 45)
-    gender = s.selectbox("Gender", config.__dict__.get("GENDERS", ["Female", "Male"]))
-    geography = s.selectbox("Geography", ["France", "Germany", "Spain"])
+    age = s.slider("Age", 18, 92, 45,
+                   help="Customer's age in years. Churn rises sharply in the 51–60 band.")
+    gender = s.selectbox("Gender", ["Female", "Male"],
+                         help="Recorded gender. In this dataset, female customers churn more.")
+    geography = s.selectbox("Geography", ["France", "Germany", "Spain"],
+                            help="Country of residence. Germany is the highest-risk market (32.4%).")
     s.markdown('<div class="sgroup">Account & Financials</div>', unsafe_allow_html=True)
-    credit = s.slider("Credit Score", 300, 850, 650)
-    balance = s.number_input("Account Balance (€)", 0, 250000, 120000, step=1000)
-    salary = s.number_input("Estimated Salary (€)", 0, 200000, 100000, step=1000)
-    tenure = s.slider("Tenure (Years)", 0, 10, 3)
+    credit = s.slider("Credit Score", 300, 850, 650,
+                      help="Creditworthiness score (300–850). Lower scores can signal risk.")
+    balance = s.number_input("Account Balance (€)", 0, 250000, 120000, step=1000,
+                             help="Current account balance. Drives the 'balance at risk' figure.")
+    salary = s.number_input("Estimated Salary (€)", 0, 200000, 100000, step=1000,
+                            help="Estimated annual salary, used in the balance-to-salary ratio.")
+    tenure = s.slider("Tenure (Years)", 0, 10, 3,
+                      help="Years the customer has been with the bank.")
     s.markdown('<div class="sgroup">Engagement</div>', unsafe_allow_html=True)
-    products = s.selectbox("Number of Products", [1, 2, 3, 4])
-    card = s.selectbox("Has Credit Card", [1, 0], format_func=lambda x: "Yes" if x else "No")
-    active = s.selectbox("Is Active Member", [1, 0], format_func=lambda x: "Yes" if x else "No")
+    products = s.selectbox("Number of Products", [1, 2, 3, 4],
+                           help="Bank products held. 3+ products churn at 83–100% (over-bundling).")
+    card = s.selectbox("Has Credit Card", [1, 0], format_func=lambda x: "Yes" if x else "No",
+                       help="Whether the customer holds a credit card.")
+    active = s.selectbox("Is Active Member", [1, 0], format_func=lambda x: "Yes" if x else "No",
+                         help="Active members churn far less (14.3% vs 26.9% for inactive).")
     s.markdown('<div class="sgroup">Model Setting</div>', unsafe_allow_html=True)
     threshold = s.slider("Churn flag cutoff", 0.20, 0.60, 0.35, 0.05,
-                         help="Lower = higher recall (catches more churners). Tuned to 0.35.")
+                         help="Probability above which a customer is flagged. Lower = higher recall "
+                              "(catches more churners). Tuned to 0.35.")
     return dict(CreditScore=credit, Age=age, Tenure=tenure, Balance=balance,
                 NumOfProducts=products, HasCrCard=card, IsActiveMember=active,
                 EstimatedSalary=salary, Geography=geography, Gender=gender), threshold
@@ -65,6 +76,7 @@ def render():
     profile, threshold = _inputs()
     cur = config.CURRENCY
 
+    ui.topbar()
     ui.header(T)
 
     prob = model.score_one(**profile)

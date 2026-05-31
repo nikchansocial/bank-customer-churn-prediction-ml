@@ -20,6 +20,7 @@ def render():
     T = get_theme()
     model = data.get_model()
     cur = config.CURRENCY
+    ui.topbar()
     ui.header(T)
 
     ui.section("Batch Customer Scoring")

@@ -6,6 +6,14 @@ import streamlit as st
 from lib import config
 
 
+def topbar() -> None:
+    """Right-aligned clean-view toggle for screenshot-friendly capture."""
+    _, right = st.columns([4, 1])
+    with right:
+        st.toggle("Clean view", key="clean",
+                  help="Hide the sidebar and app chrome for a tidy screenshot.")
+
+
 def section(label: str) -> None:
     st.markdown(f'<div class="sec">{label}</div>', unsafe_allow_html=True)
 

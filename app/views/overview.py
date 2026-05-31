@@ -21,11 +21,12 @@ def _bar(frame, x, T, title, sort=False):
     ))
     fig.update_layout(title=title, yaxis_title="Churn rate %", showlegend=False)
     fig.update_yaxes(range=[0, max(f["churn_pct"]) * 1.18])
-    return style_fig(fig, T, height=300)
+    return style_fig(fig, T, height=250)
 
 
 def render():
     T = get_theme()
+    ui.topbar()
     ui.header(T)
     k = data.headline_kpis()
     cur = config.CURRENCY
@@ -87,6 +88,6 @@ def render():
                        color_discrete_map={"Retained": T["good"], "Churned": T["bad"]})
     fig.update_layout(title="", legend_title_text="", xaxis_title=f"Account balance ({config.CURRENCY})",
                       yaxis_title="Customers")
-    st.plotly_chart(style_fig(fig, T, height=300), width='stretch', key="bal")
+    st.plotly_chart(style_fig(fig, T, height=250), width='stretch', key="bal")
 
     ui.footer()
