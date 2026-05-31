@@ -35,7 +35,9 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 #MainMenu, footer {{ visibility:hidden; }}
 
 [data-testid="block-container"] {{ padding-top:0.9rem; padding-bottom:0.8rem; max-width:1140px; }}
-[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
+[data-testid="stVerticalBlock"] {{ gap:0.35rem; }}
+[data-testid="stHorizontalBlock"] {{ gap:0.6rem; }}
+[data-testid="column"] [data-testid="stVerticalBlock"] {{ gap:0.3rem; }}
 
 /* slim page header */
 .phd {{ margin:2px 0 12px 0; padding:0 0 10px 0; border-bottom:1px solid {T['border']}; }}
@@ -45,7 +47,7 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 
 /* section label */
 .sec {{ font-family:'Instrument Sans',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.3px;
-       text-transform:uppercase; color:{T['muted']} !important; margin:12px 0 6px 2px;
+       text-transform:uppercase; color:{T['muted']} !important; margin:10px 0 5px 2px;
        display:flex; align-items:center; gap:9px; }}
 .sec::after {{ content:""; flex:1; height:1px; background:{T['border']}; }}
 
@@ -64,7 +66,7 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 .money .s {{ font-size:10px; color:#b9a695 !important; margin-top:4px; }}
 
 /* pills */
-.pill {{ display:flex; align-items:center; gap:10px; border-radius:12px; padding:9px 14px; margin:4px 0; font-size:13px; font-weight:400;
+.pill {{ display:flex; align-items:center; gap:10px; border-radius:11px; padding:8px 13px; margin:3px 0; font-size:12.5px; font-weight:400;
         border:1px solid {T['border']}; background:{T['panel']}; color:{T['text']} !important; box-shadow:{T['shadow']}; }}
 .pill .g {{ font-size:11px; }}
 .pill.bad  {{ border-left:3px solid {T['bad']};  }}
@@ -75,7 +77,7 @@ html, body, .stMarkdown, .stMarkdown p, .stMarkdown span {{ font-family:'Instrum
 .pill.good .g {{ color:{T['good']}; }}
 
 /* boxes */
-.box {{ background:{T['panel']}; border:1px solid {T['border']}; border-radius:15px; padding:15px 19px; box-shadow:{T['shadow']}; }}
+.box {{ background:{T['panel']}; border:1px solid {T['border']}; border-radius:14px; padding:13px 17px; box-shadow:{T['shadow']}; }}
 .box.accent {{ border-left:3px solid {T['accent']}; }}
 .box h4 {{ font-family:'Fraunces',serif; font-weight:600; margin:0 0 8px 0; font-size:15px; color:{T['text']} !important; }}
 .box ul {{ margin:0; padding-left:18px; }}

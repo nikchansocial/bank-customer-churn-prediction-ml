@@ -62,10 +62,8 @@ def _shap_panel(model, profile, T):
             rows += (f'<div class="pill {"bad" if up else "good"}">'
                      f'<span class="g">{"▲" if up else "▼"}</span>'
                      f'<span><b>{name}</b> — {arrow} churn risk '
-                     f'<span style="color:{color};font-family:JetBrains Mono">({val:+.2f})</span></span></div>')
+                     f'<span style="color:{color};font-weight:700">({val:+.2f})</span></span></div>')
         ui.render(rows)
-        st.caption("SHAP log-odds contributions for this exact customer (top 6). "
-                   "Positive = pushes toward churn.")
     except Exception as e:
         st.info(f"SHAP explanation unavailable in this environment ({type(e).__name__}).")
 
@@ -182,7 +180,5 @@ def render():
              (f"{m['roc_auc']:.4f}", "ROC-AUC", 23)]
     for col_, (val, lab, sz) in zip([p1, p2c, p3, p4], cards):
         col_.markdown(ui.kpi(val, lab, size=sz), unsafe_allow_html=True)
-    st.caption(f"Evaluated on {m['test_n']:,} held-out customers (20% stratified split). "
-               "These are this model's real numbers, computed at load time — not hardcoded.")
 
     ui.footer()
