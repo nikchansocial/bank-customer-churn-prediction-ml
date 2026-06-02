@@ -1,8 +1,9 @@
 # Bank Customer Churn Prediction
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
+[![CI](https://github.com/nikchansocial/bank-customer-churn-prediction-ml/actions/workflows/ci.yml/badge.svg)](https://github.com/nikchansocial/bank-customer-churn-prediction-ml/actions/workflows/ci.yml)
 ![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-FF4B4B)
-![Model](https://img.shields.io/badge/Model-Gradient%20Boosting-F7931E)
+![Model](https://img.shields.io/badge/Model-Gradient%20Boosting-orange)
 ![Project](https://img.shields.io/badge/Internship-Unified%20Mentor-6f42c1)
 
 **A tool that tells a bank which customers are about to leave — and what to do about it.**
